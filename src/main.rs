@@ -1,4 +1,13 @@
+mod platform;
+mod reporter;
+mod result;
+mod runner;
+mod command;
+mod config;
+
 use clap::Parser;
+use crate::command::Command;
+use crate::runner::TestRunner;
 
 #[derive(Parser, Debug)]
 #[command(author, version, about, long_about = None)]
@@ -6,7 +15,7 @@ struct Args {
     #[arg(short, long, default_value = "")]
     platform: String,
 
-    #[arg(short, long, default_value = "")]
+    #[arg(short, long, default_value = "config.yaml")]
     config: String,
 
     #[arg(long, default_value = "")]
@@ -25,8 +34,39 @@ struct Args {
     r#type: String,
 }
 
-fn main() {
+#[tokio::main]
+async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let args = Args::parse();
 
-    println!("{:?}", args)
+    println!("{:?}", args);
+
+    let mut cmd = Command {
+        vm: String::new(),
+        platform: args.platform.clone(),
+        device: args.device,
+        flavor: args.flavor,
+        path: args.file,
+        report: args.report,
+        r#type: args.r#type,
+        tests: vec![],
+    };
+
+    // Get config from file
+    let runner: TestRunner = config::read_yaml(args.config.as_str());
+    cmd.vm = runner.vm.clone();
+    cmd.report = runner.report.name.clone();
+    cmd.tests = runner.tests.clone();
+    if cmd.is_android() {
+        cmd.flavor = runner.device.android.flavor.clone();
+        cmd.device = runner.device.android.name.clone();
+    } else if cmd.is_ios() {
+        cmd.flavor = runner.device.ios.flavor.clone();
+        cmd.device = runner.device.ios.name.clone();
+    }
+
+    if cmd.is_android() || cmd.is_ios() {
+        return cmd.execute().await;
+    }
+
+    Err(format!("Unsupported").into())
 }
