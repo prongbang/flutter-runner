@@ -11,7 +11,7 @@ pub const FVM: &str = "fvm";
 
 #[derive(Debug, Deserialize)]
 pub struct TestRunner {
-    pub vm: String,
+    pub vm: Option<String>,
     pub device: Device,
     pub report: Report,
     pub tests: Vec<String>,
@@ -39,7 +39,7 @@ pub struct Runner {
 impl TestRunner {
     pub fn new() -> Self {
         Self {
-            vm: String::new(),
+            vm: Some(String::new()),
             device: Device::new(),
             report: Report::new(),
             tests: vec![],

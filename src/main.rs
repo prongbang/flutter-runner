@@ -53,7 +53,9 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     // Get config from file
     let runner: TestRunner = config::read_yaml(args.config.as_str());
-    cmd.vm = runner.vm.clone();
+    if let Some(vm) = runner.vm {
+        cmd.vm = vm;
+    }
     cmd.report = runner.report.name.clone();
     cmd.tests = runner.tests.clone();
     if cmd.is_android() {

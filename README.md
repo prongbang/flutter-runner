@@ -4,6 +4,12 @@ Run multiple Integration Test with a single command.
 
 [!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/prongbang)
 
+## Install
+
+```shell
+cargo install flutter-runner --git https://github.com/prongbang/flutter-runner.git
+```
+
 ```shell
 Usage: flutter-runner [OPTIONS]
 
