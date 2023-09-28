@@ -120,7 +120,8 @@ impl Command {
         let mut results: Vec<result::Result> = Vec::new();
         println!("Run {} tests on {}", tests.len(), run.device);
         for t in &tests {
-            results.push(run.run(t));
+            let result = run.run(t);
+            results.push(result);
         }
 
         // Generate report to html file

@@ -68,6 +68,8 @@ impl Runner {
     pub fn run(&self, test: &str) -> result::Result {
         let mut rs = result::Result::new();
 
+        rs.test = test.to_string().clone();
+
         // Check script by type
         let mut args: Vec<String> = Vec::new();
         if self.r#type == TYPE_TEST_DRIVER {
