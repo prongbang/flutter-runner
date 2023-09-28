@@ -99,8 +99,7 @@ impl Reporter {
         let offset = FixedOffset::east_opt(7 * 3600).unwrap();
         let current_date = Utc::now().with_timezone(&offset).format("%Y-%m-%d %H:%M:%S").to_string();
 
-        let html5 = html_tmpl.replace("{1}", &current_date);
-        let html5 = html_tmpl.replace("{2}", &html5);
+        let html5 = html_tmpl.replace("{1}", &current_date).replace("{2}", &html_content);
 
         // Create file
         file::check_or_create_is_not_exist_dir(&self.file_name);
