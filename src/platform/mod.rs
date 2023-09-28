@@ -11,15 +11,17 @@ pub struct Platform {
     pub flavor: String,
     #[serde(skip)]
     pub mode: String,
-    pub name: String,
+    pub device_id: Option<String>,
+    pub device_name: String,
 }
 
 impl Platform {
-    pub fn new() -> Self {
+    pub(crate) fn new() -> Self {
         Self {
             flavor: String::new(),
             mode: String::new(),
-            name: String::new(),
+            device_id: Some(String::new()),
+            device_name: String::new(),
         }
     }
 }

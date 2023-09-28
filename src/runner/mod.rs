@@ -32,7 +32,8 @@ pub struct Report {
 pub struct Runner {
     pub vm: String,
     pub flavor: String,
-    pub device: String,
+    pub device_id: Option<String>,
+    pub device_name: String,
     pub r#type: String,
 }
 
@@ -70,6 +71,12 @@ impl Runner {
 
         rs.test = test.to_string().clone();
 
+        // Check device id
+        let device_name = match &self.device_id {
+            Some(device) => device.as_str(),
+            None => self.device_name.as_str(),
+        };
+
         // Check script by type
         let mut args: Vec<String> = Vec::new();
         if self.r#type == TYPE_TEST_DRIVER {
@@ -79,7 +86,7 @@ impl Runner {
                 String::from("--driver=test_driver/integration_test.dart"),
                 target,
                 String::from("--flavor"), format!("{}", self.flavor.as_str()),
-                String::from("-d"), format!("{}", self.device.as_str()),
+                String::from("-d"), format!("{}", device_name),
             ];
         } else if self.r#type == TYPE_INTEGRATION_TEST {
             let integration_test = format!("integration_test/{}", test);
@@ -87,7 +94,7 @@ impl Runner {
                 String::from("test"),
                 integration_test,
                 String::from("--flavor"), format!("{}", self.flavor.as_str()),
-                String::from("-d"), format!("{}", self.device.as_str()),
+                String::from("-d"), format!("{}", device_name),
             ];
         }
 

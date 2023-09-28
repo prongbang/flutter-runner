@@ -7,7 +7,8 @@ pub struct Command {
     pub vm: String,
     pub platform: String,
     pub flavor: String,
-    pub device: String,
+    pub device_id: Option<String>,
+    pub device_name: String,
     pub r#type: String,
     pub path: String,
     pub report: String,
@@ -28,7 +29,8 @@ impl Command {
         let mut run = runner::Runner {
             vm: self.vm.clone(),
             flavor: String::new(),
-            device: String::new(),
+            device_id: self.device_id.clone(),
+            device_name: String::new(),
             r#type: self.r#type.clone(),
         };
 
@@ -38,12 +40,12 @@ impl Command {
         };
         let android = platform::android::Android {
             port: 5554,
-            device: self.device.clone(),
+            device: self.device_name.clone(),
         };
 
-        match &self.device {
+        match &self.device_name {
             d if !d.is_empty() => {
-                run.device = d.clone();
+                run.device_name = d.clone();
                 if self.is_ios() {
                     println!("iOS Simulator");
                     println!("Boot simulator {}", d);
@@ -80,12 +82,12 @@ impl Command {
             }
             _ if self.is_android() => {
                 if let Ok(device) = android.emulator_running() {
-                    run.device = device;
+                    run.device_name = device;
                 }
             }
             _ if self.is_ios() => {
                 if let Ok(device) = ios.simulator_running() {
-                    run.device = device;
+                    run.device_name = device;
                 }
             }
             _ => return Err(format!("--device not found").into()),
@@ -118,7 +120,7 @@ impl Command {
 
         // Run test
         let mut results: Vec<result::Result> = Vec::new();
-        println!("Run {} tests on {}", tests.len(), run.device);
+        println!("Run {} tests on {}", tests.len(), run.device_name);
         for t in &tests {
             let result = run.run(t);
             results.push(result);

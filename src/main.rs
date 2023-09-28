@@ -44,7 +44,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let mut cmd = Command {
         vm: String::new(),
         platform: args.platform.clone(),
-        device: args.device,
+        device_id: None,
+        device_name: args.device,
         flavor: args.flavor,
         path: args.file,
         report: args.report,
@@ -61,10 +62,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     cmd.tests = runner.tests.clone();
     if cmd.is_android() {
         cmd.flavor = runner.device.android.flavor.clone();
-        cmd.device = runner.device.android.name.clone();
+        cmd.device_name = runner.device.android.device_name.clone();
     } else if cmd.is_ios() {
         cmd.flavor = runner.device.ios.flavor.clone();
-        cmd.device = runner.device.ios.name.clone();
+        cmd.device_name = runner.device.ios.device_name.clone();
     }
 
     if cmd.is_android() || cmd.is_ios() {

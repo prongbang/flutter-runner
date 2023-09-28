@@ -22,7 +22,7 @@ impl IOS {
             .arg(command)
             .output()?;
 
-        let stdout = String::from_utf8_lossy(&output.stdout);
+        let _stdout = String::from_utf8_lossy(&output.stdout);
         let stderr = String::from_utf8_lossy(&output.stderr);
 
         if !output.status.success() || !stderr.is_empty() {

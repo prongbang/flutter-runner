@@ -8,7 +8,7 @@ pub struct Reporter {
 }
 
 impl Reporter {
-    pub fn new(file_name: String) -> Self {
+    fn new(file_name: String) -> Self {
         Self { file_name }
     }
 
