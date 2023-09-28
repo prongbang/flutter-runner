@@ -2,10 +2,11 @@ vm: "fvm"
 device:
   android:
     flavor: "automateGoogle"
-    name: "emulator-5554"
+    device_id: "emulator-5554"
+    device_name: "emulator-5554"
   ios:
     flavor: "automate"
-    name: "iPhone 14 Pro Max"
+    device_name: "iPhone 14 Pro Max"
 report:
   name: "report/ui-test-{}.html"
 tests:
