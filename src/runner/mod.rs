@@ -69,6 +69,7 @@ impl Runner {
     pub fn run(&self, test: &str) -> result::Result {
         let mut rs = result::Result::new();
 
+        // Update test name
         rs.test = test.to_string().clone();
 
         // Check device id

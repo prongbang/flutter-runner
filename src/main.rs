@@ -62,9 +62,11 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     cmd.tests = runner.tests.clone();
     if cmd.is_android() {
         cmd.flavor = runner.device.android.flavor.clone();
+        cmd.device_id = runner.device.android.device_id.clone();
         cmd.device_name = runner.device.android.device_name.clone();
     } else if cmd.is_ios() {
         cmd.flavor = runner.device.ios.flavor.clone();
+        cmd.device_id = runner.device.android.device_id.clone();
         cmd.device_name = runner.device.ios.device_name.clone();
     }
 
