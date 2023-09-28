@@ -4,6 +4,7 @@ mod result;
 mod runner;
 mod command;
 mod config;
+mod file;
 
 use clap::Parser;
 use crate::command::Command;

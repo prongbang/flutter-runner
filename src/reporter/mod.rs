@@ -1,7 +1,7 @@
 use std::fs;
 use std::error::Error;
 use chrono::{FixedOffset, Utc};
-use crate::result;
+use crate::{file, result};
 
 pub struct Reporter {
     pub file_name: String,
@@ -101,6 +101,9 @@ impl Reporter {
 
         let html5 = html_tmpl.replace("{1}", &current_date);
         let html5 = html_tmpl.replace("{2}", &html5);
+
+        // Create file
+        file::check_or_create_is_not_exist_dir(&self.file_name);
         fs::write(&self.file_name, html5)?;
 
         println!("Test result");
