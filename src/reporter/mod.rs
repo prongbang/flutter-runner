@@ -59,8 +59,8 @@ impl Reporter {
             let status = if !r.error.is_empty() {
                 format!(
                     r#"<span class="badge"><a href="?error={}">{}</a></span>"#,
-                    r.test,
-                    r.status
+                    &r.test,
+                    &r.status
                 )
             } else {
                 format!(r#"<span class="badge">{}</span>"#, r.status)
@@ -77,16 +77,16 @@ impl Reporter {
                 </tr>
                 "#,
                 status_class,
-                r.test,
+                &r.test,
                 r.get_time_usage(),
                 status,
-                r.test,
-                r.error
+                &r.test,
+                &r.error
             );
         }
         html_content += "</table>";
         html_content += r#"
-        <script>";
+        <script>
             const params = new Proxy(new URLSearchParams(window.location.search), { get: (searchParams, prop) => searchParams.get(prop), });
             let error = params['error'];
             if (!!error) {
